@@ -11,7 +11,7 @@ const app: Application = express();
 export function startServer() {
  
   app.use(cors({
-    origin: 'https://mongo-api-2025.onrender.com',
+    origin: 'https://mevn2025.onrender.com',
     credentials: true,
     methods: 'GET, PUT, POST, DELETE',
     allowedHeaders: ['auth-token', 'Origin', 'X-Requested-Width', 'Content-Type', 'Accepts'],
