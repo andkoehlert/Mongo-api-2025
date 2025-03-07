@@ -3,20 +3,156 @@ import { createProduct, getAllProducts, getProductById, updateProductById, delet
 import {registerUsers, loginUser, verifyToken} from './controllers/authController'
 const router: Router = Router();
 
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     tags:
+ *       - App Routes
+ *     summary: Health check
+ *     description: Basic route to check if the api is running
+ *     responses:
+ *       200:
+ *         description: Server up and running.
+ */
+
 // get, post, put, delete
 router.get('/', (req: Request, res: Response) => {
   res.status(200).send('Hello World');
 });
 
+// auth
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     tags:
+ *       - User Routes
+ *     summary: Register a new user
+ *     description: Takes a user in the body and tries to register it in the database
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/User"
+ *     responses:
+ *       201:
+ *         description: User created succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                 _id:
+ *                   type: string
+ */
 
 // auth
 router.post('/user/register', registerUsers)
-router.post('/user/login', loginUser);
 
-router.post('/products', verifyToken, createProduct);
+router.post('/user/login', loginUser);
+/**
+ * @swagger
+ * /products:
+ *   post:
+ *     tags:
+ *       - Product Routes
+ *     summary: Create a new Product
+ *     description: Create a new Product
+ *     security:
+ *       - ApiKeyAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Product"
+ *           example:
+ *             name: "Mr. Burns statue"
+ *             agent: "007"
+ *             description: "The best and precious statue ever"
+ *             imageURL: "https://random-d.uk/api/v2/randomimg"
+ *             age: 7
+ *             birthday: 3
+ *             species: gråand
+ *             friendly: yes
+ *             hostile: no
+ *             isHidden: false
+ *             _createdBy: "6748771972ba527f3a17a313"
+ *     responses:
+ *       201:
+ *         description: Product created succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Product"
+ */
+router.post('/products',  createProduct);
+
+
+
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     tags:
+ *       - Product Routes
+ *     summary: Retrieves a list of Products
+ *     description: Retrieves a list of products as JSON objects.
+ *     responses:
+ *       200:
+ *         description: A list of product JSON objects in an array.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Product"
+ */
+
 router.get('/products', getAllProducts);
 router.get('/products/:id', getProductById);
+
+// update + delete
+/**
+ * @swagger
+ * /products/{id}:
+ *   put:
+ *     tags:
+ *       - Product Routes
+ *     summary: Updates a specific Product
+ *     description: Updates a specific Product based on its id
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID from repository
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Product"
+ *
+ *     responses:
+ *       200:
+ *         description: Product updated succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Product"
+ */
 router.put('/products/:id', verifyToken,  updateProductById);
 router.delete('/products/:id', verifyToken, deleteProductById);
+
+
 
 export default router;
