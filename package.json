@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "description": "mongoDB express node typescript rest api",
   "main": "index.js",
- "scripts": {
-  "build": "tsc",
-  "start": "node ./dist/index.js",
-  "start-dev": "npx nodemon",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js",
+    "start-dev": "npx nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mongodb-js/saslprep": "^1.2.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
