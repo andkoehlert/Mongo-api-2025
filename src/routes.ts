@@ -54,14 +54,47 @@ router.get('/', (req: Request, res: Response) => {
 // auth
 router.post('/user/register', registerUsers)
 
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     tags:
+ *       - User Routes
+ *     summary: Login an existing user
+ *     description: Logs in an existing user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ */
+
 router.post('/user/login', loginUser);
 /**
  * @swagger
  * /products:
  *   post:
  *     tags:
- *       - Product Routes
- *     summary: Create a new Product
+ *       - ProDuck Routes
+ *     summary: Create a new ProDuck
  *     description: Create a new Product
  *     security:
  *       - ApiKeyAuth: []
@@ -115,6 +148,34 @@ router.post('/products',  createProduct);
  */
 
 router.get('/products', getAllProducts);
+
+
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   get:
+ *     tags:
+ *       - Product Routes
+ *     summary: Specific Product
+ *     description: Retrieves a specific Product based on it id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: MongoDB id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A Product in the format of a JSON object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Product"
+ */
 router.get('/products/:id', getProductById);
 
 // update + delete
