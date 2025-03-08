@@ -19,7 +19,7 @@ export function setupDocs(app: Application) {
         },
         servers: [
             {
-                url: 'https://mongo-api-2025.onrender.com/',
+                url: 'https://mongo-api-2025.onrender.com/api',
                 description: 'Local development server',
             }
         ],
