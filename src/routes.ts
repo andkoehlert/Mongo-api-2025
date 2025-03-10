@@ -1,5 +1,5 @@
 import {Router, Request, Response} from 'express';
-import { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById} from './controllers/productController';
+import { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById, getNotWantedDucks, getWantedDucks} from './controllers/productController';
 import {registerUsers, loginUser, verifyToken} from './controllers/authController'
 const router: Router = Router();
 
@@ -137,21 +137,21 @@ router.post('/products',  createProduct);
  *     tags:
  *       - ProDuck Routes
  *     summary: Retrieves ProDuck products with optional filtering
- *     description: Fetch all products with optional filters for hostile or friendly status.
+ *     description: Fetch all producks with optional filters for hostile or friendly status.
  *     parameters:
  *       - in: query
  *         name: hostile
  *         schema:
  *           type: boolean
- *         description: Filter products by hostile status (true or false).
+ *         description: Filter producks by hostile status (true or false).
  *       - in: query
  *         name: friendly
  *         schema:
  *           type: boolean
- *         description: Filter products by friendly status (true or false).
+ *         description: Filter producks by friendly status (true or false).
  *     responses:
  *       200:
- *         description: A list of product JSON objects.
+ *         description: A list of producks JSON objects.
  *         content:
  *           application/json:
  *             schema:
@@ -159,6 +159,47 @@ router.post('/products',  createProduct);
  *               items:
  *                 $ref: "#/components/schemas/Product"
  */
+
+/**
+ * @swagger
+ * /products/wanted:
+ *   get:
+ *     tags:
+ *       - Product Routes
+ *     summary: Retrieves all ducks that are wanted
+ *     description:
+ *     responses:
+ *       200:
+ *         description: A list of Product JSON objects in an array.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Product"
+ */
+router.get('/products/wanted', getWantedDucks);
+
+/**
+ * @swagger
+ * /products/notwanted:
+ *   get:
+ *     tags:
+ *       - Product Routes
+ *     summary: Retrieves all ducks that are not wanted
+ *     description:
+ *     responses:
+ *       200:
+ *         description: A list of Product JSON objects in an array.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Product"
+ */
+router.get('/products/notwanted', getNotWantedDucks);
+
 
 router.get('/products', getAllProducts);
 
@@ -170,8 +211,8 @@ router.get('/products', getAllProducts);
  *   get:
  *     tags:
  *       - Product Routes
- *     summary: Specific Product
- *     description: Retrieves a specific Product based on it id.
+ *     summary: Specific producks
+ *     description: Retrieves a specific producks based on it id.
  *     parameters:
  *       - in: path
  *         name: id
@@ -181,7 +222,7 @@ router.get('/products', getAllProducts);
  *           type: string
  *     responses:
  *       200:
- *         description: A Product in the format of a JSON object.
+ *         description: A producks in the format of a JSON object.
  *         content:
  *           application/json:
  *             schema:
@@ -198,8 +239,8 @@ router.get('/products/:id', getProductById);
  *   put:
  *     tags:
  *       - Product Routes
- *     summary: Updates a specific Product
- *     description: Updates a specific Product based on its id
+ *     summary: Updates a specific producks
+ *     description: Updates a specific producks based on its id
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -232,9 +273,9 @@ router.put('/products/:id', verifyToken,  updateProductById);
  * /products/{id}:
  *   delete:
  *     tags:
- *       - Product Routes
- *     summary: Deletes a specific Product
- *     description: Deletes a specific Product based on it id
+ *       - producks Routes
+ *     summary: Deletes a specific producks
+ *     description: Deletes a specific producks based on it id
  *     security:
  *       - ApiKeyAuth: []
  *     parameters:
@@ -247,7 +288,7 @@ router.put('/products/:id', verifyToken,  updateProductById);
  *
  *     responses:
  *       201:
- *         description: Product deleted succesfully
+ *         description: producks deleted succesfully
  *         content:
  *           application/json:
  *             schema:

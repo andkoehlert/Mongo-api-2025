@@ -61,6 +61,42 @@ export async function getAllProducts(req: Request, res: Response): Promise<void>
 }
 
 
+/**
+ * Get all wanted ducks
+ * @param req
+ * @param res
+ */
+export async function getWantedDucks(req: Request, res: Response) {
+  try {
+      await connect();
+      const result = await productModel.find({ wanted: true });
+      res.status(200).send(result);
+  } catch {
+      res.status(500).send("Error retrieving wanted ducks");
+  }
+  finally {
+      await disconnect();
+  }
+}
+
+/**
+ * Get all not Wanted ducks
+ * @param req
+ * @param res
+ */
+export async function getNotWantedDucks(req: Request, res: Response) {
+  try {
+      await connect();
+      const result = await productModel.find({ wanted: false });
+      res.status(200).send(result);
+  } catch {
+      res.status(500).send("Error retrieving Not wanted ducks");
+  }
+  finally {
+      await disconnect();
+  }
+}
+
 
 /**
  * Retrieves all products from the data source
