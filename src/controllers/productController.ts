@@ -37,24 +37,29 @@ await disconnect();
  */
 
 export async function getAllProducts(req: Request, res: Response): Promise<void> {
- // We are not sending any data in the request body
- //  const data = req.body;
-
   try {
-await connect();
+    await connect();
 
-// const product = new productModel(data);
-const result = await productModel.find({});
+    // Filtrering baseret på query-parametre
+    const filter: any = {};
 
-res.status(200).send(result);
-  }
-  catch (error) {
-res.status(500).send('Internal Server Error .Error: ' + error);
-  }
-  finally {
-await disconnect();
+    if (req.query.hostile !== undefined) {
+      filter.hostile = req.query.hostile === 'true'; // Filtrer ved hjælp af boolean
+    }
+
+    if (req.query.friendly !== undefined) {
+      filter.friendly = req.query.friendly === 'true';
+    }
+
+    const result = await productModel.find(filter); // Find produkter med de givne filtre
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send('Internal Server Error. Error: ' + error);
+  } finally {
+    await disconnect();
   }
 }
+
 
 
 /**

@@ -17,9 +17,11 @@ export function setupDocs(app: Application) {
             version: '1.0.0',
             description: 'Description',
         },
+        //: https://mongo-api-2025.onrender.com/api for render online
+        // http://localhost:4000/api for localhost
         servers: [
             {
-                url: 'https://mongo-api-2025.onrender.com/api',
+                url: ' https://mongo-api-2025.onrender.com/api',
                 description: 'Local development server',
             }
         ],
@@ -40,10 +42,12 @@ export function setupDocs(app: Application) {
                         description: { type: 'string' },
                         imageURL: { type: 'string' },
                         age: { type: 'number' },
-                        birthday: { type: 'number' },
+                        wanted: { type: 'boolean' },
+                        notWanted: { type: 'boolean' },
                         species: { type: 'string' },
                         friendly: { type: 'boolean' },
                         hostile: { type: 'boolean' },
+                        ducksAssassinated: {type: 'number'},
                         _createdBy: { type: 'string' },
                     },
                 },

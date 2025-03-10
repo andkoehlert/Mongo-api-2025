@@ -110,10 +110,13 @@ router.post('/user/login', loginUser);
  *             description: "The best and precious statue ever"
  *             imageURL: "https://random-d.uk/api/v2/randomimg"
  *             age: 7
+ *             wanted: true
+ *             notWanted: true
  *             birthday: 3
  *             species: gråand
- *             friendly: yes
- *             hostile: no
+ *             friendly: true
+ *             hostile: false
+ *             ducksAssassinated: 0
  *             isHidden: false
  *             _createdBy: "6748771972ba527f3a17a313"
  *     responses:
@@ -127,18 +130,28 @@ router.post('/user/login', loginUser);
 router.post('/products',  createProduct);
 
 
-
 /**
  * @swagger
  * /products:
  *   get:
  *     tags:
- *       - Product Routes
- *     summary: Retrieves a list of Products
- *     description: Retrieves a list of products as JSON objects.
+ *       - ProDuck Routes
+ *     summary: Retrieves ProDuck products with optional filtering
+ *     description: Fetch all products with optional filters for hostile or friendly status.
+ *     parameters:
+ *       - in: query
+ *         name: hostile
+ *         schema:
+ *           type: boolean
+ *         description: Filter products by hostile status (true or false).
+ *       - in: query
+ *         name: friendly
+ *         schema:
+ *           type: boolean
+ *         description: Filter products by friendly status (true or false).
  *     responses:
  *       200:
- *         description: A list of product JSON objects in an array.
+ *         description: A list of product JSON objects.
  *         content:
  *           application/json:
  *             schema:
@@ -211,7 +224,37 @@ router.get('/products/:id', getProductById);
  *             schema:
  *               $ref: "#/components/schemas/Product"
  */
+
 router.put('/products/:id', verifyToken,  updateProductById);
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   delete:
+ *     tags:
+ *       - Product Routes
+ *     summary: Deletes a specific Product
+ *     description: Deletes a specific Product based on it id
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: MongoDB id
+ *         schema:
+ *           type: string
+ *
+ *     responses:
+ *       201:
+ *         description: Product deleted succesfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Product"
+ */
+
+
 router.delete('/products/:id', verifyToken, deleteProductById);
 
 

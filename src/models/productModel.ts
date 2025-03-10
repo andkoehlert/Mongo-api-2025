@@ -8,10 +8,12 @@ const proDucktSchema = new Schema<ProDuck>({
   description: { type: String, required: true, min: 6, max: 255},
   imageURL: { type: String, required: true},
   age: { type: Number, required: true},
-  birthday: { type: Number, required: true},
+  wanted: { type: Boolean, required: true},
+  notWanted: { type: Boolean, required: true},
   species: { type: String, required: true},
   friendly: {type: Boolean, required: true},
   hostile: {type: Boolean, required: true},
+  ducksAssassinated: { type: Number, required: true},
   isHidden: { type: Boolean, required: true},
   _createdBy: { type: String, ref: 'User', required: true}
 });
